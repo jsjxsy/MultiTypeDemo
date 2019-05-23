@@ -1,13 +1,12 @@
 package com.example.multitypedemo.model;
 
-import android.graphics.drawable.Icon;
 
 public class Title {
 
     public String title;
-    public Icon icon;
+    public int icon;
 
-    public Title(String title, Icon icon) {
+    public Title(String title, int icon) {
         this.title = title;
         this.icon = icon;
     }

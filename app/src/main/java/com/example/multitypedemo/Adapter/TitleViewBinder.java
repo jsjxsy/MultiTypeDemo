@@ -1,4 +1,4 @@
-package com.example.multitypedemo;
+package com.example.multitypedemo.Adapter;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.multitypedemo.R;
 import com.example.multitypedemo.model.Title;
 
 import me.drakeet.multitype.ItemViewBinder;
@@ -19,7 +20,7 @@ public class TitleViewBinder extends ItemViewBinder<Title, TitleViewBinder.Title
     @NonNull
     @Override
     protected TitleHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        View rootView = inflater.inflate(R.layout.layout_item_view, parent, false);
+        View rootView = inflater.inflate(R.layout.layout_item_view_title, parent, false);
         return new TitleHolder(rootView);
     }
 
@@ -29,7 +30,7 @@ public class TitleViewBinder extends ItemViewBinder<Title, TitleViewBinder.Title
         if (item == null) {
             return;
         }
-        holder.imageView.setImageIcon(item.icon);
+        holder.imageView.setImageResource(item.icon);
         holder.textView.setText(item.title);
 
     }
