@@ -7,18 +7,23 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.example.multitypedemo.Adapter.ADViewBinder;
 import com.example.multitypedemo.Adapter.BannerViewBinder;
 import com.example.multitypedemo.Adapter.GoodTitleViewBinder;
+import com.example.multitypedemo.Adapter.GoodViewBinder;
 import com.example.multitypedemo.Adapter.LineViewBinder;
 import com.example.multitypedemo.Adapter.TitleViewBinder;
 import com.example.multitypedemo.model.Ad;
 import com.example.multitypedemo.model.Banner;
 import com.example.multitypedemo.model.EmptyValue;
+import com.example.multitypedemo.model.Good;
+import com.example.multitypedemo.model.GoodList;
 import com.example.multitypedemo.model.Title;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.drakeet.multitype.ClassLinker;
 import me.drakeet.multitype.ItemViewBinder;
@@ -51,14 +56,14 @@ public class MainActivity extends AppCompatActivity {
         final int num_title = 5;
         final int num_ad = 2;
         final int num_good_title = 1;
-        final int num_good = 4;
-        final int num_hot = 1;
-        final int num_main_game = 1;
-        final int num_new_title = 1;
-        final int num_new_game = 2;
+        final int num_good = 1;
+//        final int num_hot = 1;
+//        final int num_main_game = 1;
+//        final int num_new_title = 1;
+//        final int num_new_game = 2;
 
-//        int[] types = new int[]{num_banner, num_title, num_ad, num_good_title, num_good, num_hot};
-//        final int total = MockData.getTotal(types);
+        int[] types = new int[]{num_banner, num_title, num_ad, num_good_title,num_good};//, num_good, num_hot};
+        final int total = MockData.getTotal(types);
 
         /**每一行占的个数不固定的例子
          * 比如有一行1个，5个，2个 同时存在
@@ -68,38 +73,39 @@ public class MainActivity extends AppCompatActivity {
          * 第三种 SpanSize=10/2
          * 为什么呢？因为要保证10/1 10/5 10/2 都是整数。
          */
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 10);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, total);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
 
             @Override
             public int getSpanSize(int position) {
                 if (list.get(position) instanceof Banner) {
-                    return 10 / 1;
+                    return total / num_banner;
                 }
                 if (list.get(position) instanceof Title) {
-                    return 10 / 5;
+                    return total / num_title;
                 }
                 if (list.get(position) instanceof Ad) {
-                    return 10 / 2;
+                    return total / num_ad;
                 }
                 if (list.get(position) instanceof EmptyValue) {
-                    return 10 / 1;
+                    return total / num_good_title;
                 }
-//                if (list.get(position) instanceof Good) {
-//                    return total / num_good;
-//                }
+                if (list.get(position) instanceof Good) {
+                    return total / num_good;
+                }
 //                if (list.get(position) instanceof HotList) {
 //                    return total / num_hot;
 //                }
 //                if (list.get(position) instanceof MainGame) {
 //                    return total / num_main_game;
 //                }
-                return 10;
+                return total;
             }
         });
         rv_design.setLayoutManager(layoutManager);
 
         adapter = new MultiTypeAdapter();
+
         adapter.register(Banner.class, new BannerViewBinder());
         adapter.register(Title.class, new TitleViewBinder());
         adapter.register(Ad.class, new ADViewBinder());
@@ -119,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         return LineViewBinder.class;
                     }
                 });
-//        adapter.register(Good.class, new GoodViewBinder());
+        adapter.register(GoodList.class, new GoodViewBinder());
 //        adapter.register(HotList.class, new HotViewBinder());
 //        adapter.register(MainGame.class, new MainGameViewBinder());
         rv_design.setAdapter(adapter);
